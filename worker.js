@@ -31,7 +31,7 @@ function search(q) {
         let scores = terms.filter(t => t.op != "order").map(({op, orig, value}) => {
             // 5: head
             if (op == "=" && RegExp("^(?:" + value + ")$").test(entry.head) || value == entry.head) return 7;
-            if (entry.head.includes(value) || op == "~" && RegExp(value).test(entry.head)) return 6;
+            if (op == "~" && RegExp(value).test(entry.head)) return 6;
             // 3: body
             if (!op) {
                 let sanitized = value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
