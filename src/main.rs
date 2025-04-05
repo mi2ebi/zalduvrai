@@ -18,6 +18,8 @@ struct Entry {
     #[serde(skip_serializing_if = "Vec::is_empty")]
     affix: Vec<String>,
     #[serde(skip_serializing_if = "Vec::is_empty")]
+    used_in: Vec<String>,
+    #[serde(skip_serializing_if = "Vec::is_empty")]
     derived: Vec<Deriv>,
 }
 #[derive(Serialize, Clone, PartialEq)]
@@ -41,6 +43,7 @@ impl Entry {
             defs: vec![],
             etym: String::new(),
             affix: vec![],
+            used_in: vec![],
             derived: vec![],
         }
     }
@@ -277,9 +280,9 @@ fn main() {
                                 state = State::Deriv;
                             } else {
                                 if content.starts_with('U') {
-                                    // "Used In:" - list of furdjifoa containing the word. if this
-                                    // is critical i might try making a loglan equivalent of
-                                    // latkerlo-jvotci
+                                    // "Used In:" - list of furdjifoa containing the word
+                                    state = State::Def;
+                                    entry.used_in = content[9..].split("; ").map(std::string::ToString::to_string).collect_vec();
                                     continue 'evts;
                                 }
                                 assert!(content.starts_with('('));

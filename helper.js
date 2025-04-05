@@ -42,7 +42,16 @@ function htmlify(json) {
                 deriv.body,
                 mkel("br", {}, [])
             ];
-        }) : null
+        }) : null,
+        json.used_in ? mkel("details", {}, [
+            mkel("summary", {}, "used in"),
+            json.used_in.map(u => {
+                return [
+                    mkel("a", {"href": "?q=" + u}, [u]),
+                    ", "
+                ];
+            })
+        ].flat(Infinity).slice(0, -1)) : null
     ].flat(Infinity));
     return entry;
 }

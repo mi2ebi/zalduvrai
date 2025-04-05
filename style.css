@@ -41,6 +41,7 @@ input, button {
 }
 button {
     background-color: lightgray;
+    color: black;
 }
 input {
     width: 300px;
@@ -77,8 +78,5 @@ a:hover {
     }
     input {
         border-color: white;
-    }
-    button {
-        color: black;
     }
 }
