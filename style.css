@@ -1,0 +1,72 @@
+@font-face {
+    font-family: "Fira Sans";
+    src: url(fonts/FiraSans-Regular.ttf);
+}
+@font-face {
+    font-family: "Fira Sans";
+    src: url(fonts/FiraSans-Italic.ttf);
+    font-style: italic;
+}
+@font-face {
+    font-family: "Fira Sans";
+    src: url(fonts/FiraSans-Bold.ttf);
+    font-weight: bold;
+}
+@font-face {
+    font-family: "Fira Sans";
+    src: url(fonts/FiraSans-BoldItalic.ttf);
+    font-weight: bold;
+    font-style: italic;
+}
+@font-face {
+    font-family: "Iosevka";
+    src: url(fonts/Iosevka-Regular.ttf);
+}
+*, input {
+    box-sizing: border-box;
+}
+body {
+    margin: 0 auto;
+    padding: 8px;
+    max-width: 600px;
+    font-size: 18px;
+    font-family: "Fira Sans", sans-serif;
+    line-height: 1.4;
+}
+input, button {
+    font: inherit;
+}
+input {
+    width: 300px;
+    max-width: 100%;
+}
+div.entry {
+    margin: 0.5lh 0;
+}
+.etym {
+    opacity: 50%;
+}
+code {
+    font-family: "Iosevka", monospace;
+}
+a {
+    color: red;
+}
+a:hover {
+    color: blueviolet;
+}
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: black;
+        color: white;
+    }
+    .etym {
+        opacity: 75%;
+    }
+    a {
+        color: orange;
+    }
+    a:hover {
+        color: yellow;
+    }
+}

@@ -1,0 +1,50 @@
+<!doctype html>
+<html>
+    <head>
+        <title>la zalduvrai</title>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" href="style.css" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    </head>
+    <body>
+        <h1>la zalduvrai</h1>
+        <p><a href="https://github.com/mi2ebi/zalduvrai">github repo</a></p>
+        <input
+            type="text" id="search" name="search"
+            autocomplete="off" spellcheck="false" autocapitalize="off" autocorrect="off"
+            size="1" placeholder="loading" disabled
+        />
+        <button type="reset" id="clear">clear</button>
+        <span id="len"></span>
+        <div id="res"></div>
+        <div id="bottom"></div>
+        <script src="dict.js"></script>
+        <script src="helper.js"></script>
+        <script src="events.js"></script>
+        <script>
+            $`search`.removeAttribute("disabled");
+            $`search`.setAttribute("placeholder", "search");
+            worker = new Worker("worker.js");
+            worker.addEventListener("message", function (e) {
+                res = e.data;
+                if (res.err) {
+                    $`res`.innerHTML = res.err;
+                    $`bottom`.innerHTML = "";
+                    return;
+                }
+                $`res`.innerHTML = "";
+                $`len`.innerHTML = "<b>" + res.length + "</b>\xa0results";
+                page = 0;
+                load(res, page);
+                checkLength();
+            });
+            function updateFromQuery() {
+                var par = new URLSearchParams(window.location.search);
+                navigate(par.get("q") ?? "", false);
+                $`search`.focus();
+            }
+            window.addEventListener("DOMContentLoaded", updateFromQuery);
+            window.addEventListener("popstate", updateFromQuery);
+        </script>
+    </body>
+</html>
