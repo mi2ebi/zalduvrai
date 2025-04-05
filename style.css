@@ -35,6 +35,12 @@ body {
 }
 input, button {
     font: inherit;
+    padding: 4px 8px;
+    border-radius: 4px;
+    border: 1px solid black;
+}
+button {
+    background-color: lightgray;
 }
 input {
     width: 300px;
@@ -56,7 +62,7 @@ a:hover {
     color: blueviolet;
 }
 @media (prefers-color-scheme: dark) {
-    body {
+    body, input {
         background-color: black;
         color: white;
     }
@@ -68,5 +74,8 @@ a:hover {
     }
     a:hover {
         color: yellow;
+    }
+    input {
+        border-color: white;
     }
 }

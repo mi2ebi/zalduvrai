@@ -33,7 +33,7 @@
                     return;
                 }
                 $`res`.innerHTML = "";
-                $`len`.innerHTML = "<b>" + res.length + "</b>\xa0results";
+                $`len`.innerHTML = "<b>" + res.length + "</b>\xa0result" + (res.length - 1 ? "s" : "");
                 page = 0;
                 load(res, page);
                 checkLength();
