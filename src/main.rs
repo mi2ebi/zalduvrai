@@ -278,14 +278,15 @@ fn main() {
                             if content.is_empty() {
                                 // <b>
                                 state = State::Deriv;
-                            } else {
-                                if content.starts_with('U') {
-                                    // "Used In:" - list of furdjifoa containing the word
-                                    state = State::Def;
-                                    entry.used_in = content[9..].split("; ").map(std::string::ToString::to_string).collect_vec();
-                                    continue 'evts;
-                                }
-                                assert!(content.starts_with('('));
+                            } else if content.starts_with('U') {
+                                // "Used In:" - list of furdjifoa containing the word
+                                state = State::Def;
+                                entry.used_in = content[9..]
+                                    .split("; ")
+                                    .map(std::string::ToString::to_string)
+                                    .collect_vec();
+                                continue 'evts;
+                            } else if content.starts_with('(') {
                                 state = State::Def;
                                 let pos = &content[1..content.find(')').unwrap()];
                                 let rest = &content[content.find(") ").unwrap() + 2..];
@@ -317,8 +318,9 @@ fn main() {
                         "origin" => {
                             if text.starts_with("&lt;") {
                                 assert!(text.ends_with("&gt;"));
-                                entry.etym =
-                                    text[4..text.len() - 4].to_string().replace("&nbsp;", "");
+                                entry.etym = deëntity(
+                                    &text[4..text.len() - 4].to_string().replace("&nbsp;", ""),
+                                );
                             } else {
                                 entry.affix.push(text);
                             }
