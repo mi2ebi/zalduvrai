@@ -78,4 +78,7 @@ a:hover {
     input {
         border-color: white;
     }
+    button {
+        color: black;
+    }
 }
