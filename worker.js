@@ -35,7 +35,7 @@ function search(q) {
             // 3: body
             if (!op) {
                 let sanitized = value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-                if (entry.defs.some(def => RegExp(`^[BCDFGJKJKNPSV] ((is|are) (an? |the |an?/the )?)?${sanitized}(e?s|\\W|$)`, "iu").test(def.body))) return 5;
+                if (entry.defs.some(def => RegExp(`^[BCDFGJKJKNPSV] ((is|are) (an? |the |an?/the )?)?${sanitized}(e?s|\\W|$)`, "iu").test(def.body) || def.body.startsWith(sanitized))) return 5;
                 if (entry.defs.some(def => def.body.toLowerCase().includes(value))) return 4;
                 if (entry.derivs && entry.derivs.some(deriv => deriv.body.toLowerCase().includes(value))) return 3;
                 if (entry.head.includes(value)) return 2;
