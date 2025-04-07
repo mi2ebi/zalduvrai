@@ -34,7 +34,7 @@ function htmlify(json) {
                 mkel("br", {}, [])
             ];
         }) : null,
-        json.derived ? json.derived.map(deriv => {
+        json.derivs ? json.derivs.map(deriv => {
             return [
                 mkel("b", {}, [deriv.head]),
                 " ",

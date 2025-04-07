@@ -20,7 +20,7 @@ struct Entry {
     #[serde(skip_serializing_if = "Vec::is_empty")]
     used_in: Vec<String>,
     #[serde(skip_serializing_if = "Vec::is_empty")]
-    derived: Vec<Deriv>,
+    derivs: Vec<Deriv>,
 }
 #[derive(Serialize, Clone, PartialEq)]
 struct Def {
@@ -44,7 +44,7 @@ impl Entry {
             etym: String::new(),
             affix: vec![],
             used_in: vec![],
-            derived: vec![],
+            derivs: vec![],
         }
     }
 }
@@ -85,7 +85,7 @@ impl Debug for Entry {
         for def in &self.defs {
             writeln!(f, "{def:?}")?;
         }
-        for deriv in &self.derived {
+        for deriv in &self.derivs {
             writeln!(f, "{deriv:?}")?;
         }
         Ok(())
@@ -195,8 +195,7 @@ fn main() {
                 break 'evts;
             }
             Ok(Event::Start(e)) => {
-                let tag = e.name();
-                let tag = String::from_utf8(tag.as_ref().to_vec()).unwrap();
+                let tag = String::from_utf8(e.name().as_ref().to_vec()).unwrap();
                 let attrs = e
                     .html_attributes()
                     .map(|attr| attr.unwrap())
@@ -210,8 +209,7 @@ fn main() {
                 inside.push(Open { tag, attrs });
             }
             Ok(Event::End(e)) => {
-                let tag = e.name();
-                let tag = String::from_utf8(tag.as_ref().to_vec()).unwrap();
+                let tag = String::from_utf8(e.name().as_ref().to_vec()).unwrap();
                 if tag.as_str() == "p" {
                     match state {
                         State::None => {}
@@ -222,7 +220,7 @@ fn main() {
                         }
                         State::Deriv => {
                             if !deriv.is_empty() {
-                                entry.derived.push(deriv.clone());
+                                entry.derivs.push(deriv.clone());
                             }
                         }
                     }
@@ -243,7 +241,7 @@ fn main() {
                         def = Def::new();
                     }
                     State::Deriv => {
-                        entry.derived.push(deriv.clone());
+                        entry.derivs.push(deriv.clone());
                         deriv = Deriv::new();
                     }
                 }
