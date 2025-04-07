@@ -62,6 +62,13 @@ a {
 a:hover {
     color: blueviolet;
 }
+:is(#res, #bottom, #len):not(:empty) ~ #about {
+    display: none;
+}
+var {
+    font-style: normal;
+    background-color: lightgreen;
+}
 @media (prefers-color-scheme: dark) {
     body, input {
         background-color: black;
@@ -78,5 +85,8 @@ a:hover {
     }
     input {
         border-color: white;
+    }
+    var {
+        background-color: darkgreen;
     }
 }

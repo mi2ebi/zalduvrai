@@ -16,8 +16,18 @@
         />
         <button type="reset" id="clear">clear</button>
         <span id="len"></span>
+        <p></p>
         <div id="res"></div>
         <div id="bottom"></div>
+        <div id="about">
+            <h2>things you can do</h2>
+            <ul>
+                <li><code>=<var>thing</var></code> for loglan words that are exactly <var>thing</var></li>
+                <li><code>~<var>thing</var></code> for loglan words that contain <var>thing</var> (useful for furdjifoa)</li>
+                <li><code>!<var>query</var></code> to exclude results matching <var>query</var></li>
+            </ul>
+            <p><var>thing</var>s can also be regular expressions (but you have to use eg <code>\x20</code> for spaces). everything is case-insensitive</p>
+        </div>
         <script src="dict.js"></script>
         <script src="helper.js"></script>
         <script src="events.js"></script>

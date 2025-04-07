@@ -10,7 +10,7 @@ function search(q) {
         let [_, operator, query] = term.match(/^([=~!])(.*)/) ?? [];
         if (!operator) return {op: "", orig: term, value: term.toLowerCase()};
         if (["=", "~"].includes(operator)) {
-            try {let regex = RegExp(query);}
+            try {let regex = RegExp(query, "iu");}
             catch (e) {return {err: "bad regex"}}
         }
         return {
@@ -30,8 +30,8 @@ function search(q) {
         if (excluded.has(entry)) continue;
         let scores = terms.filter(t => t.op != "order").map(({op, orig, value}) => {
             // 5: head
-            if (op == "=" && RegExp("^(?:" + value + ")$").test(entry.head) || value == entry.head) return 7;
-            if (op == "~" && RegExp(value).test(entry.head)) return 6;
+            if (op == "=" && RegExp("^(?:" + value + ")$", "iu").test(entry.head) || value == entry.head) return 7;
+            if (op == "~" && RegExp(value, "iu").test(entry.head)) return 6;
             // 3: body
             if (!op) {
                 let sanitized = value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
