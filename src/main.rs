@@ -277,7 +277,7 @@ fn main() {
                                 // <b>
                                 state = State::Deriv;
                             } else if content.starts_with('U') {
-                                // "Used In:" - list of furdjifoa containing the word
+                                // "Used In: " - list of furdjifoa containing the word
                                 state = State::Def;
                                 entry.used_in = content[9..]
                                     .split("; ")
@@ -294,7 +294,7 @@ fn main() {
                             && deriv.pos.is_empty()
                             && text.starts_with(" (")
                         {
-                            let pos = &text[2..text.find(')').unwrap()];
+                            let pos = &text[2..text.find(") ").unwrap()];
                             let rest = &text[text.find(") ").unwrap() + 2..];
                             append!(state; pos, pos; body, rest);
                         } else {
