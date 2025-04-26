@@ -26,8 +26,6 @@ struct Entry {
 struct Def {
     pos: String,
     body: String,
-    #[serde(skip_serializing_if = "String::is_empty")]
-    frame: String,
 }
 #[derive(Serialize, Clone, PartialEq)]
 struct Deriv {
@@ -53,7 +51,6 @@ impl Def {
         Self {
             pos: String::new(),
             body: String::new(),
-            frame: String::new(),
         }
     }
     fn is_empty(&self) -> bool {
@@ -93,7 +90,7 @@ impl Debug for Entry {
 }
 impl Debug for Def {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "- ({})[{}] {}", self.pos, self.frame, self.body)
+        write!(f, "- ({}) {}", self.pos, self.body)
     }
 }
 impl Debug for Deriv {
@@ -305,7 +302,6 @@ fn main() {
                             .map_or("[]", |fr| fr.get(0).unwrap().as_str());
                         let frame = &frame[1..frame.len() - 1];
                         if !frame.is_empty() && state == State::Def {
-                            def.frame += frame;
                             def.body = def.body[..def.body.len() - frame.len() - 2].to_string();
                         }
                     }
