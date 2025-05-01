@@ -17,8 +17,8 @@ function htmlify(json) {
                 mkel("b", null, [json.head])
             ]),
             " ",
-            json.affix ? mkel("i", {"className": "affix"}, [
-                json.affix.join(" ")
+            json.djifoa ? mkel("i", {"className": "djifoa"}, [
+                json.djifoa.join(" ")
             ]) : null,
             " ",
             json.etym ? mkel("span", {"className": "etym"}, [

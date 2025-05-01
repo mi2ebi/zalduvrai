@@ -16,7 +16,7 @@ struct Entry {
     #[serde(skip_serializing_if = "String::is_empty")]
     etym: String,
     #[serde(skip_serializing_if = "Vec::is_empty")]
-    affix: Vec<String>,
+    djifoa: Vec<String>,
     #[serde(skip_serializing_if = "Vec::is_empty")]
     used_in: Vec<String>,
     #[serde(skip_serializing_if = "Vec::is_empty")]
@@ -40,7 +40,7 @@ impl Entry {
             head: String::new(),
             defs: vec![],
             etym: String::new(),
-            affix: vec![],
+            djifoa: vec![],
             used_in: vec![],
             derivs: vec![],
         }
@@ -76,7 +76,7 @@ impl Debug for Entry {
             f,
             "\n\x1b[;1m{} \x1b[;96m{} \x1b[92m{}\x1b[m",
             self.head,
-            self.affix.join(","),
+            self.djifoa.join(","),
             self.etym
         )?;
         for def in &self.defs {
@@ -316,7 +316,10 @@ fn main() {
                                     &text[4..text.len() - 4].to_string().replace("&nbsp;", ""),
                                 );
                             } else {
-                                entry.affix.push(text);
+                                entry.djifoa = text
+                                    .split(' ')
+                                    .map(std::string::ToString::to_string)
+                                    .collect();
                             }
                         }
                         c => panic!("found an em with class {c}"),
