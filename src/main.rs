@@ -245,8 +245,7 @@ fn main() {
             }
             Ok(Event::Text(e)) => {
                 let text = String::from_utf8(e.into_inner().into_owned()).unwrap();
-                if text.trim().is_empty() {
-                    // this only occurs between djifoa lists and etymologies
+                if state == State::None && text.trim().is_empty() {
                     continue 'evts;
                 }
                 let parent = inside.last();
