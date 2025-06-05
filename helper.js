@@ -44,7 +44,7 @@ function htmlify(json) {
             ];
         }) : null,
         json.used_in ? mkel("details", {}, [
-            mkel("summary", {}, "used in"),
+            mkel("summary", {}, ["used in (", json.used_in.length, ")"]),
             json.used_in.map(u => {
                 return [
                     mkel("a", {"href": "?q=" + u}, [u]),
