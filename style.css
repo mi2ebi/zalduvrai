@@ -1,92 +1,118 @@
 @font-face {
-    font-family: "Fira Sans";
-    src: url(fonts/FiraSans-Regular.ttf);
+  font-family: "Fira Sans";
+  src: url(fonts/FiraSans-Regular.ttf);
 }
+
 @font-face {
-    font-family: "Fira Sans";
-    src: url(fonts/FiraSans-Italic.ttf);
-    font-style: italic;
+  font-family: "Fira Sans";
+  src: url(fonts/FiraSans-Italic.ttf);
+  font-style: italic;
 }
+
 @font-face {
-    font-family: "Fira Sans";
-    src: url(fonts/FiraSans-Bold.ttf);
-    font-weight: bold;
+  font-family: "Fira Sans";
+  src: url(fonts/FiraSans-Bold.ttf);
+  font-weight: bold;
 }
+
 @font-face {
-    font-family: "Fira Sans";
-    src: url(fonts/FiraSans-BoldItalic.ttf);
-    font-weight: bold;
-    font-style: italic;
+  font-family: "Fira Sans";
+  src: url(fonts/FiraSans-BoldItalic.ttf);
+  font-weight: bold;
+  font-style: italic;
 }
+
 @font-face {
-    font-family: "Iosevka";
-    src: url(fonts/Iosevka-Regular.ttf);
+  font-family: "Iosevka";
+  src: url(fonts/Iosevka-Regular.ttf);
 }
-*, input {
-    box-sizing: border-box;
-}
-body {
-    margin: 0 auto;
-    padding: 8px;
-    max-width: 600px;
-    font-size: 18px;
-    font-family: "Fira Sans", sans-serif;
-    line-height: 1.4;
-}
-input, button {
-    font: inherit;
-    padding: 4px 8px;
-    border-radius: 4px;
-    border: 1px solid black;
-}
-button {
-    background-color: lightgray;
-    color: black;
-}
+
+*,
 input {
-    width: 300px;
-    max-width: 100%;
+  box-sizing: border-box;
 }
+
+body {
+  margin: 0 auto;
+  padding: 8px;
+  max-width: 600px;
+  font-size: 18px;
+  font-family: "Fira Sans", sans-serif;
+  line-height: 1.4;
+}
+
+input,
+button {
+  font: inherit;
+  padding: 4px 8px;
+  border-radius: 4px;
+  border: 1px solid black;
+}
+
+button {
+  background-color: lightgray;
+  color: black;
+}
+
+input {
+  width: 300px;
+  max-width: 100%;
+}
+
 div.entry {
-    margin: 0.5lh 0;
+  margin: 0.5lh 0;
 }
+
 .etym {
-    opacity: 50%;
+  opacity: 50%;
 }
+
 code {
-    font-family: "Iosevka", monospace;
+  font-family: "Iosevka", monospace;
 }
+
 a {
-    color: red;
+  color: red;
 }
+
 a:hover {
-    color: blueviolet;
+  color: blueviolet;
 }
-:is(#res, #bottom, #len):not(:empty) ~ #about {
-    display: none;
+
+:is(#res, #bottom, #len):not(:empty)~#about {
+  display: none;
 }
+
 var {
-    font-style: normal;
-    background-color: lightgreen;
+  font-style: normal;
+  background-color: lightgreen;
 }
+
 @media (prefers-color-scheme: dark) {
-    body, input {
-        background-color: black;
-        color: white;
-    }
-    .etym {
-        opacity: 75%;
-    }
-    a {
-        color: orange;
-    }
-    a:hover {
-        color: yellow;
-    }
-    input {
-        border-color: white;
-    }
-    var {
-        background-color: darkgreen;
-    }
+
+  body,
+  input {
+    background-color: black;
+    color: white;
+  }
+
+  .etym {
+    opacity: 75%;
+  }
+
+  a {
+    color: orange;
+  }
+
+  a:hover {
+    color: yellow;
+  }
+
+  input {
+    border-color: white;
+  }
+
+  var {
+    background-color: darkgreen;
+  }
 }
