@@ -1,5 +1,7 @@
 #![allow(clippy::too_many_lines, clippy::cognitive_complexity)]
 
+use std::{collections::HashMap, fmt::Debug, fs, sync::LazyLock};
+
 use htmlentity::entity::{ICodedDataTrait as _, decode};
 use itertools::Itertools as _;
 use quick_xml::{Reader, events::Event};
@@ -7,7 +9,6 @@ use regex::Regex;
 use reqwest::blocking::Client;
 use serde::Serialize;
 use serde_json::to_string;
-use std::{collections::HashMap, fmt::Debug, fs, sync::LazyLock};
 
 #[derive(Serialize, Clone)]
 struct Entry {
@@ -47,27 +48,12 @@ impl Entry {
     }
 }
 impl Def {
-    const fn new() -> Self {
-        Self {
-            pos: String::new(),
-            body: String::new(),
-        }
-    }
-    fn is_empty(&self) -> bool {
-        self == &Self::new()
-    }
+    const fn new() -> Self { Self { pos: String::new(), body: String::new() } }
+    fn is_empty(&self) -> bool { self == &Self::new() }
 }
 impl Deriv {
-    const fn new() -> Self {
-        Self {
-            head: String::new(),
-            pos: String::new(),
-            body: String::new(),
-        }
-    }
-    fn is_empty(&self) -> bool {
-        self == &Self::new()
-    }
+    const fn new() -> Self { Self { head: String::new(), pos: String::new(), body: String::new() } }
+    fn is_empty(&self) -> bool { self == &Self::new() }
 }
 
 impl Debug for Entry {
@@ -95,11 +81,7 @@ impl Debug for Def {
 }
 impl Debug for Deriv {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "> \x1b[1m{}\x1b[m ({}) {}",
-            self.head, self.pos, self.body
-        )
+        write!(f, "> \x1b[1m{}\x1b[m ({}) {}", self.head, self.pos, self.body)
     }
 }
 
@@ -126,9 +108,7 @@ enum State {
 
 static FRAME: LazyLock<Regex> = LazyLock::new(|| Regex::new(r"\[[BCDFGJKJKNPSV-]+\]$").unwrap());
 
-fn deëntity(t: &str) -> String {
-    decode(t.as_bytes()).to_string().unwrap()
-}
+fn deëntity(t: &str) -> String { decode(t.as_bytes()).to_string().unwrap() }
 
 fn main() {
     let client = Client::new();
@@ -266,25 +246,28 @@ fn main() {
                     }
                     ("p", _) => {
                         if text.starts_with("&nbsp;") {
-                            // miscellaneous word stuff that is not guaranteed to be structured, but
-                            // usually has shape/author/date that kinda stuff
+                            // miscellaneous word stuff that is not guaranteed
+                            // to be structured, but usually has shape/author/
+                            // date that kinda stuff
                         } else if let Some(content) = text.strip_prefix("\n&nbsp;&nbsp;&nbsp;") {
                             if content.is_empty() {
                                 // <b>
                                 state = State::Deriv;
-                            } else if content.starts_with('U') {
-                                // "Used In: " - list of furdjifoa containing the word
-                                state = State::Def;
-                                entry.used_in = content[9..]
-                                    .split("; ")
-                                    .map(std::string::ToString::to_string)
-                                    .collect_vec();
-                                continue 'evts;
-                            } else if content.starts_with('(') {
-                                state = State::Def;
-                                let pos = &content[1..content.find(')').unwrap()];
-                                let rest = &content[content.find(") ").unwrap() + 2..];
-                                append!(state; pos, pos; body, rest);
+                            } else {
+                                if content.starts_with('U') {
+                                    state = State::Def;
+                                    entry.used_in = content[9..]
+                                        .split("; ")
+                                        .map(std::string::ToString::to_string)
+                                        .collect_vec();
+                                    continue 'evts;
+                                }
+                                if content.starts_with('(') {
+                                    state = State::Def;
+                                    let pos = &content[1..content.find(')').unwrap()];
+                                    let rest = &content[content.find(") ").unwrap() + 2..];
+                                    append!(state; pos, pos; body, rest);
+                                }
                             }
                         } else if state == State::Deriv
                             && deriv.pos.is_empty()
@@ -296,9 +279,8 @@ fn main() {
                         } else {
                             append!(state; body, &text);
                         }
-                        let frame = FRAME
-                            .captures(&text)
-                            .map_or("[]", |fr| fr.get(0).unwrap().as_str());
+                        let frame =
+                            FRAME.captures(&text).map_or("[]", |fr| fr.get(0).unwrap().as_str());
                         let frame = &frame[1..frame.len() - 1];
                         if !frame.is_empty() && state == State::Def {
                             def.body = def.body[..def.body.len() - frame.len() - 2].to_string();
@@ -315,10 +297,8 @@ fn main() {
                                     &text[4..text.len() - 4].to_string().replace("&nbsp;", ""),
                                 );
                             } else {
-                                entry.djifoa = text
-                                    .split(' ')
-                                    .map(std::string::ToString::to_string)
-                                    .collect();
+                                entry.djifoa =
+                                    text.split(' ').map(std::string::ToString::to_string).collect();
                             }
                         }
                         c => panic!("found an em with class {c}"),
@@ -330,9 +310,5 @@ fn main() {
         }
     }
     println!("writing");
-    fs::write(
-        "dict.js",
-        format!("const dict = {};", to_string(&entries).unwrap()),
-    )
-    .unwrap();
+    fs::write("dict.js", format!("const dict = {};", to_string(&entries).unwrap())).unwrap();
 }
