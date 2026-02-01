@@ -241,7 +241,7 @@ fn main() {
                             // <a> containing their `head`
                             continue;
                         }
-                        assert!(state == State::Deriv);
+                        assert_eq!(state, State::Deriv, r#"should be in the "used in" part"#);
                         deriv.head = deëntity(&text);
                     }
                     ("p", _) => {
@@ -286,13 +286,16 @@ fn main() {
                             def.body = def.body[..def.body.len() - frame.len() - 2].to_string();
                         }
                     }
-                    ("em", attrs) => match attrs.get("class").unwrap().as_str() {
+                    ("em", attrs) => match attrs["class"].as_str() {
                         "key" => {
                             append!(state; body, &text);
                         }
                         "origin" => {
                             if text.starts_with("&lt;") {
-                                assert!(text.ends_with("&gt;"));
+                                assert!(
+                                    text.ends_with("&gt;"),
+                                    "etymology should end with `&gt;` but does not:\n{text}"
+                                );
                                 entry.etym = deëntity(
                                     &text[4..text.len() - 4].to_string().replace("&nbsp;", ""),
                                 );
